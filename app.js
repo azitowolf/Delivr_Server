@@ -23,7 +23,8 @@ var jsonParser = bodyParser.json();
 mongoose.connect('mongodb://localhost/delivr');
 var corsOptions = {
   methods: ['GET', 'PUT', 'POST'],
-  origin: '*'
+  origin: 'http://localhost:9000',
+  credentials: true
 };
 
 //Middleware

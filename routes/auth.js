@@ -11,44 +11,48 @@ router.post('/register', function(req, res, next) {
     }, req.body.password,
 
     function(err, user) {
-      console.log(user);
       if (err) {
         console.log(err);
         return err;
       }
       req.login(user, function(err) {
-        res.redirect('/');
+        res.json({
+          user: user
+        });
       });
     });
 });
 
-router.get('/login', function(req, res, next) {
-  res.json(user);
-});
+var isAuthenticated = function(req, res, next) {
 
-// Login user, just for debugging
-router.post('/login', function(req, res, next) {
-  console.log('POST /login');
-  next();
+  if (req.isAuthenticated()) {
+    console.log(req.user);
+    return next();
+  }
+
+};
+
+router.get('/login', isAuthenticated, function(req, res) {
+  res.json({
+    user: req.user
+  });
 });
 
 // Login user, passport authenticate
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  res.writeHead(200);
+  res.json({
+    user: req.user
+  });
 });
 
 
 router.all('/logout', function(req, res, next) {
   req.logout();
-  res.redirect('/');
+  res.json({
+    message: "signed out"
+  });
 });
 
-
-var isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.redirect('/');
-};
 
 router.get('/', isAuthenticated, function(req, res) {
   res.json('successfully logged in');
