@@ -5,9 +5,11 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/register', function(req, res, next) {
-  console.log(req.body);
   User.register({
       username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phoneNumber: req.body.phoneNumber
     }, req.body.password,
 
     function(err, user) {
