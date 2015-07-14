@@ -10,6 +10,7 @@ var router = express.Router();
 //Routes for Deliveries
 router.get('/api', function(req, res) {
   Delivery.find({}, function(error, itemList) {
+    console.log(itemList);
     res.json(itemList);
   });
 });
