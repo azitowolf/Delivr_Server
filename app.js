@@ -1,3 +1,5 @@
+var Delivery = require('./lib/deliveries.js');
+var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var path = require('path');
 var logger = require('morgan');
@@ -10,12 +12,11 @@ var util = require('util');
 var session = require('express-session');
 var passport = require('passport');
 var auth = require('./routes/auth');
-var LocalStrategy = require('passport-local').Strategy;
 var usersRouter = require('./routes/users');
 var deliveriesRouter = require('./routes/deliveries');
 var session = require('express-session');
-var Delivery = require('./lib/deliveries.js');
 var cors = require('cors');
+var stripeRouter = require('./routes/stripe.js');
 
 
 //Setup
@@ -58,6 +59,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/auth', auth);
 app.use('/deliveries', deliveriesRouter);
 app.use('/users', usersRouter);
+app.use('/stripe', stripeRouter);
 
 var server = app.listen(3000, function() {
 

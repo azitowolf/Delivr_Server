@@ -1,5 +1,5 @@
-//requires
 var express = require('express');
+var User = require('../lib/users');
 var bodyParser = require('body-parser'); //parser for json
 var Delivery = require('../lib/deliveries.js'); //Model
 
