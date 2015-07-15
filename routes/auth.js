@@ -1,6 +1,8 @@
 var passport = require('passport');
 var User = require('../lib/users');
 var express = require('express');
+require('dotenv').load();
+var Postmates = require('postmates');
 
 var router = express.Router();
 
@@ -60,11 +62,6 @@ router.get('/', isAuthenticated, function(req, res) {
   res.json('successfully logged in');
 });
 
-router.get('/pay', function(req, res) {
-  res.render('stripe');
-});
-
-
 router.post('/cardSubmit', function(req, res) {
 
   console.log(req.body.stripeToken);
@@ -76,13 +73,13 @@ router.post('/cardSubmit', function(req, res) {
   var stripeToken = req.body.stripeToken;
 
   var charge = stripe.charges.create({
-    amount: req.session.cart.total,
+    amount: 2000,
     currency: "usd",
     source: stripeToken,
     description: "Example charge"
   }, function(err, charge) {
     if (err && err.type === 'StripeCardError') {
-      console.log('we talked to the server');
+      console.log(err);
     }
   });
   console.log(charge);
