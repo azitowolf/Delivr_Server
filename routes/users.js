@@ -36,13 +36,17 @@ router.post('/api', function(req, res) {
   });
 });
 
-router.patch('/api/:id', jsonParser);
-router.patch('/api/:id', function(req, res) {
-  console.log(req);
+router.put('/api/:id', jsonParser);
+router.put('/api/:id', function(req, res) {
+
+  console.log(req.body);
+
   User.findByIdAndUpdate(req.params.id, {
-    $set: req.body
+    $push: {
+      "currentDeliveries": req.body.delivery
+    }
   }, function(error, user) {
-    console.log(user);
+
     if (error) {
       console.log(error);
       res.sendStatus(400);
@@ -64,83 +68,5 @@ router.delete('/api/:id', function(req, res) {
     }
   });
 });
-
-router.get('/:id', function(req, res) {
-  // console.log(req.user);
-  var productList = [];
-  console.log("This user's cart is " + util.inspect(req.session.cart));
-
-  if (req.session.cart) {
-    var total = 0;
-    req.session.cart.products.forEach(function(product) {
-
-      Item.findOne({
-        _id: product
-      }, function(err, productFound) {
-        total += productFound.price;
-        productList.push(productFound);
-        console.log(productFound);
-      })
-    })
-
-    setTimeout(function() {
-      res.render('user', {
-        user: req.user,
-        products: productList,
-        total: total,
-        cartCount: req.session.cart.products.length
-      });
-      console.log('total is' + total)
-      req.session.cart.total = total;
-      console.log('TOTAL OF CART' + req.session.cart.total);
-    }, 1000)
-
-  } else {
-    res.redirect('/');
-  }
-
-});
-
-
-var logUserAndSession = function(req, res, next) {
-  console.log('req.user: %j', req.user);
-  console.log('req.session: %j', req.session);
-  next();
-};
-
-router.post('/login', logUserAndSession);
-router.post('/', jsonParser);
-router.post('/', function(req, res) {
-  User.create(req.body, function(error, user) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      fs.readFile('./templates/users.jade', 'utf8', function(err, data) {
-        if (err) {
-          res.sendStatus(400);
-        };
-        var userCompiler = jade.compile(data);
-        var html = userCompiler(user);
-        res.send(html);
-        res.status(201);
-      });
-    };
-  });
-});
-
-router.delete('/:id', function(req, res) {
-  User.remove({
-    _id: req.params.id
-  }, function(error) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(204);
-    }
-  });
-});
-
 
 module.exports = router;
