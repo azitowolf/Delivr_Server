@@ -65,17 +65,6 @@ router.delete('/api/:id', function(req, res) {
   });
 });
 
-// Jade (rendered) routes for users
-// router.get('/', function(req, res) {
-//   User.find({}, function(error, userList) {
-//     res.render('users', {
-//       users: userList,
-//       user: req.user,
-//     });
-//     console.log("Hello I count the items in the cart " + req.session.cart.products.length);
-//   });
-// });
-
 router.get('/:id', function(req, res) {
   // console.log(req.user);
   var productList = [];

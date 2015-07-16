@@ -17,6 +17,7 @@ var deliveriesRouter = require('./routes/deliveries');
 var session = require('express-session');
 var cors = require('cors');
 var stripeRouter = require('./routes/stripe.js');
+var postmatesRouter = require('./routes/postmates.js')
 
 
 //Setup
@@ -60,6 +61,7 @@ app.use('/auth', auth);
 app.use('/deliveries', deliveriesRouter);
 app.use('/users', usersRouter);
 app.use('/stripe', stripeRouter);
+app.use('/postmates', postmatesRouter);
 
 var server = app.listen(3000, function() {
 

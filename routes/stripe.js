@@ -1,8 +1,7 @@
 var passport = require('passport');
 var User = require('../lib/users');
 var express = require('express');
-require('dotenv').load();
-var Postmates = require('postmates');
+
 var router = express.Router();
 
 router.post('/cardSubmit', function(req, res) {
