@@ -1,15 +1,11 @@
-//requires
 var express = require('express');
-var bodyParser = require('body-parser'); //parser for json
+var bodyParser = require('body-parser');
 var util = require('util');
-var User = require('./../lib/users.js'); //Model
-
-
+var User = require('./../lib/users.js');
 var jsonParser = bodyParser.json();
 
 var router = express.Router();
 
-//API (data) Routes for Users
 router.get('/api', function(req, res) {
   User.find({}, function(error, userList) {
     res.json(userList);
@@ -39,11 +35,9 @@ router.post('/api', function(req, res) {
 router.put('/api/:id', jsonParser);
 router.put('/api/:id', function(req, res) {
 
-  console.log(req.body);
-
   User.findByIdAndUpdate(req.params.id, {
     $push: {
-      "currentDeliveries": req.body.delivery._id
+      "deliveries": req.body.delivery
     }
   }, function(error, user) {
 
