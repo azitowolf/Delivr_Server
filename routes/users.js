@@ -43,7 +43,7 @@ router.put('/api/:id', function(req, res) {
 
   User.findByIdAndUpdate(req.params.id, {
     $push: {
-      "currentDeliveries": req.body.delivery
+      "currentDeliveries": req.body.delivery._id
     }
   }, function(error, user) {
 

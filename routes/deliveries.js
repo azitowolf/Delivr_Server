@@ -31,7 +31,7 @@ router.post('/api', function(req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      res.sendStatus(201);
+      res.json(item);
     }
   });
 });
