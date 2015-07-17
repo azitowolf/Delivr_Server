@@ -13,7 +13,6 @@ var session = require('express-session');
 var passport = require('passport');
 var auth = require('./routes/auth');
 var usersRouter = require('./routes/users');
-var deliveriesRouter = require('./routes/deliveries');
 var session = require('express-session');
 var cors = require('cors');
 var stripeRouter = require('./routes/stripe.js');
@@ -58,7 +57,6 @@ passport.deserializeUser(User.deserializeUser());
 
 //all routes
 app.use('/auth', auth);
-app.use('/deliveries', deliveriesRouter);
 app.use('/users', usersRouter);
 app.use('/stripe', stripeRouter);
 app.use('/postmates', postmatesRouter);

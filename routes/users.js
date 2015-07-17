@@ -20,31 +20,20 @@ router.get('/api/:id', function(req, res) {
   });
 });
 
-router.post('/api', jsonParser);
-router.post('/api', function(req, res) {
-  User.create(req.body, function(error, user) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(201);
-    }
-  });
-});
-
+//Add a delivery to a users array
 router.put('/api/:id', jsonParser);
 router.put('/api/:id', function(req, res) {
   console.log(req.body);
   User.findByIdAndUpdate(req.params.id, {
     $push: {
-      deliveries: req.body.form
+      deliveries: req.body
     }
   }, function(error, user) {
     if (error) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      res.sendStatus(200);
+      res.json(user);
     }
   });
 });

@@ -24,7 +24,22 @@ router.put('/getProposal', function(req, res) {
         'deliveries._id': req.body.deliveryid
       }, {
         $set: {
-          'deliveries.$.postmatesProposal': response.body
+          'deliveries.$.postmatesProposal': response.body,
+        }
+      },
+      function(error, user) {
+        if (error) {
+          console.log(error);
+        } else {
+
+        }
+      });
+    User.update({
+        _id: req.body.deliveryid
+      }, {
+        $set: {
+          price: response.body.fee,
+          deliveryTime: response.body.duration
         }
       },
       function(error, user) {
