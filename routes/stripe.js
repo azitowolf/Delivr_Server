@@ -1,30 +1,38 @@
 var passport = require('passport');
 var User = require('../lib/users');
 var express = require('express');
+var stripe = require('stripe');
 
 var router = express.Router();
 
-router.post('/cardSubmit', function(req, res) {
+var stripe = require("stripe")("sk_test_gWerCzqU93BcpgpLn2RlIg0p");
 
-  console.log(req.body.stripeToken);
+router.post('/createUserToken', function(req, res) {
 
-  var stripe = require("stripe")("sk_test_gWerCzqU93BcpgpLn2RlIg0p");
-
-  // (Assuming you're using express - expressjs.com)
-  // Get the credit card details submitted by the form
-  var stripeToken = req.body.stripeToken;
-
-  var charge = stripe.charges.create({
-    amount: 2000,
-    currency: "usd",
-    source: stripeToken,
-    description: "Example charge"
-  }, function(err, charge) {
-    if (err && err.type === 'StripeCardError') {
-      console.log(err);
+  console.log(req.body);
+  stripe.tokens.create({
+    card: {
+      "number": req.body.number,
+      "exp_month": req.body.exp_month,
+      "exp_year": req.body.exp_year,
+      "cvc": req.body.cvc
     }
+  }, function(err, token) {
+    res.json(token);
   });
-  console.log(charge);
+
+});
+
+
+router.post('/createUser', function(req, res) {
+
+  stripe.customers.create({
+    description: 'alex@az.com',
+    source: req.body.token
+  }, function(err, customer) {
+    res.json(customer);
+  });
+
 });
 
 module.exports = router;
