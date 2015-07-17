@@ -34,13 +34,12 @@ router.post('/api', function(req, res) {
 
 router.put('/api/:id', jsonParser);
 router.put('/api/:id', function(req, res) {
-
+  console.log(req.body);
   User.findByIdAndUpdate(req.params.id, {
     $push: {
-      "deliveries": req.body.delivery
+      deliveries: req.body.form
     }
   }, function(error, user) {
-
     if (error) {
       console.log(error);
       res.sendStatus(400);
