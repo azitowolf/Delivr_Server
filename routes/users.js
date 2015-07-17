@@ -33,7 +33,7 @@ router.put('/api/:id', function(req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      res.json(user);
+      res.sendStatus(200);
     }
   });
 });
