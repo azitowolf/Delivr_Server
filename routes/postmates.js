@@ -9,16 +9,14 @@ var router = express.Router();
 
 var postmates = new Postmates(process.env.POSTMATES_USER_ID, process.env.POSTMATES_KEY);
 
-console.log(process.env.POSTMATES_USER_ID);
-
 router.put('/getProposal', function(req, res) {
 
   var delivery = {
-    pickup_address: "20 McAllister St, San Francisco, CA",
-    dropoff_address: "101 Market St, San Francisco, CA"
+    pickup_address: req.body.pickup,
+    dropoff_address: req.body.dropoff
   };
 
-  console.log(req.body.deliveryid);
+  console.log(req.body);
 
   postmates.quote(delivery, function(err, response) {
     console.log(response.body);
@@ -32,7 +30,6 @@ router.put('/getProposal', function(req, res) {
       function(error, user) {
         if (error) {
           console.log(error);
-
         } else {
 
         }
