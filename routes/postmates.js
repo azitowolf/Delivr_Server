@@ -34,21 +34,6 @@ router.put('/getProposal', function(req, res) {
 
         }
       });
-    User.update({
-        _id: req.body.deliveryid
-      }, {
-        $set: {
-          price: response.body.fee,
-          deliveryTime: response.body.duration
-        }
-      },
-      function(error, user) {
-        if (error) {
-          console.log(error);
-        } else {
-
-        }
-      });
     res.json(response.body);
   });
 
