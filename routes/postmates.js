@@ -9,6 +9,7 @@ var router = express.Router();
 
 var postmates = new Postmates(process.env.POSTMATES_USER_ID, process.env.POSTMATES_KEY);
 
+//find the delivery and update it with the postmates proposal
 router.put('/getProposal', function(req, res) {
 
   var delivery = {

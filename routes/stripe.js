@@ -25,14 +25,25 @@ router.post('/createUserToken', function(req, res) {
 
 
 router.post('/createUser', function(req, res) {
-
   stripe.customers.create({
     description: 'alex@az.com',
     source: req.body.token
   }, function(err, customer) {
+    if (err) {
+      console.log(err);
+    }
+    User.update({
+        _id: req.user._id
+      }, {
+        $set: {
+          stripeID: customer.id
+        }
+      },
+      function(err) {
+        console.log("success");
+      });
     res.json(customer);
   });
-
 });
 
 module.exports = router;
